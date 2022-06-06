@@ -17,6 +17,8 @@ void setup()
 
   //String wifi_string = readFile(SPIFFS, "/wifi.txt");
 
+
+
   //BORRAR ESTO CUANDO TERMINE TODAS LAS PRUEBAS
   if(!SPIFFS.exists("/wifi.txt")){
     String comando = "1";
