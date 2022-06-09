@@ -1,8 +1,13 @@
 #include "main.h"
 
+// TARJETA NFC =  2:1,2,3;3:4 abriendo la puerta 1, 2 y 3 de la zona 2 y la puerta 4 de la zona 3
+
 void setup()
 {
   Serial.begin(115200);
+
+//inicializarvariables();
+
 
   SPIFFS.begin(true);
   if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED))
@@ -32,6 +37,7 @@ void setup()
   IPAddress myIP = WiFi.softAPIP();
 
   server.on("/", handleConnectionRoot);
+  server.on("/form", HTTP_POST, procFormulario);
   server.begin();
 
   Serial.print("SSID: ");
@@ -113,4 +119,17 @@ void handleConnectionRoot()
 {
   server.send(200, "text/html", answer);
   
+}
+
+
+void InicializarVariables(){
+
+  SSID = readFile(SPIFFS, "/SSID.txt").c_str();
+  PASSWORD = readFile(SPIFFS, "/PASS.txt").c_str();
+
+}
+
+void procFormulario(){
+  String SSID = server.arg("SSID");
+  Serial.println(SSID + "nuevo");
 }

@@ -9,7 +9,6 @@
 #include "SPIFFS.h"
 #include "SPIFF_fun.h"
 
-
 //definiciones de PN532
 #define PN532_SCK (18)
 #define PN532_MOSI (23)
@@ -37,3 +36,4 @@ String answer = "<!DOCTYPE html>\
 void TaskLeerIdNFC(void *pvParameters);
 void TaskRedWifi(void *pvParameters);
 void handleConnectionRoot();
+void InicializarVariables();
