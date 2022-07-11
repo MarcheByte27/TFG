@@ -6,9 +6,6 @@ void setup()
 {
   Serial.begin(115200);
 
-//inicializarvariables();
-
-
   SPIFFS.begin(true);
   if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED))
   {
@@ -19,35 +16,23 @@ void setup()
   }
   listDir(SPIFFS, "/", 0);
 
+  InicializarVariables();
+  // String wifi_string = readFile(SPIFFS, "/wifi.txt");
 
-  //String wifi_string = readFile(SPIFFS, "/wifi.txt");
-
-
-
-  //BORRAR ESTO CUANDO TERMINE TODAS LAS PRUEBAS
-  if(!SPIFFS.exists("/wifi.txt")){
+  // BORRAR ESTO CUANDO TERMINE TODAS LAS PRUEBAS
+  if (!SPIFFS.exists("/wifi.txt"))
+  {
     String comando = "1";
-    writeFile(SPIFFS, "/data.txt", (char *)comando.c_str());
+    writeFile(SPIFFS, "/wifi.txt", (char *)comando.c_str());
   }
 
+ 
 
-  Serial.println("Configuring access point...");
-  // You can remove the password parameter if you want the AP to be open.
-  WiFi.softAP(SSID, PASSWORD);
-  IPAddress myIP = WiFi.softAPIP();
-
-  server.on("/", handleConnectionRoot);
-  server.on("/form", HTTP_POST, procFormulario);
-  server.begin();
-
-  Serial.print("SSID: ");
-  Serial.println(SSID);
-  Serial.print("IP address: ");
-  Serial.println(myIP);
+  initServer();
 
   xTaskCreate(
       TaskRedWifi, "TaskRedWifi",
-      2048,
+      4096,
       NULL, 2,
       NULL);
 
@@ -60,6 +45,7 @@ void setup()
 
 void loop() {}
 
+//TAREAS
 void TaskLeerIdNFC(void *pvParameters)
 {
 
@@ -111,25 +97,87 @@ void TaskLeerIdNFC(void *pvParameters)
 void TaskRedWifi(void *pvParameters)
 {
   for (;;)
-    server.handleClient();
+    //server.handleClient();
   vTaskDelay(200);
 }
 
+//FUNCIONES DE AYUDA
+void initServer()
+{
+
+  Serial.println("Configuring access point...");
+  
+  WiFi.softAP(SSID.c_str(), PASSWORD.c_str());
+  IPAddress myIP = WiFi.softAPIP();
+  
+
+  server.serveStatic("/", SPIFFS, "/").setDefaultFile("WebServer.html");
+  //server.on("/", handleConnectionRoot);
+  server.on("/changeSSID", HTTP_POST, procSSID);
+  server.onNotFound([](AsyncWebServerRequest *request) {
+      request->send(400, "text/plain", "Not found");
+   });
+  server.begin();
+
+  Serial.print("SSID: ");
+  Serial.println(SSID);
+  Serial.print("IP address: ");
+  Serial.println(myIP);
+  
+}
+/*
 void handleConnectionRoot()
 {
   server.send(200, "text/html", answer);
-  
+}*/
+
+void InicializarVariables()
+{
+
+  if (!SPIFFS.exists("/SSID.txt"))
+  {
+    String comando = "ConfigNFC";
+    writeFile(SPIFFS, "/SSID.txt", (char *)comando.c_str());
+  }
+  if (!SPIFFS.exists("/PASS.txt"))
+  {
+    String comando = "hola1234";
+    writeFile(SPIFFS, "/PASS.txt", (char *)comando.c_str());
+  }
+
+  SSID = readFile(SPIFFS, "/SSID.txt");
+  PASSWORD = readFile(SPIFFS, "/PASS.txt");
 }
 
+void procSSID(AsyncWebServerRequest *request)
+{
+  String SSID1 = request->arg("ssid"); //server.arg("ssid");
+  bool t = false;
 
-void InicializarVariables(){
+  if (!SSID1.isEmpty())
+  {
+    writeFile(SPIFFS, "/SSID.txt", (char *)SSID1.c_str());
+    Serial.println("SSID nuevo: " + SSID1);
+    t = true;
+  }
+  else
+    Serial.println("SSID no fue modificado");
+  String PASS = request->arg("pass");//server.arg("pass");
+  if (!PASS.isEmpty())
+  {
+    writeFile(SPIFFS, "/PASS.txt", (char *)PASS.c_str());
+    Serial.println("La contraseña fue cambiada correctamente");
+    t = true;
+  }
+  else
+    Serial.println("La contraseña no fue modificada");
 
-  SSID = readFile(SPIFFS, "/SSID.txt").c_str();
-  PASSWORD = readFile(SPIFFS, "/PASS.txt").c_str();
-
-}
-
-void procFormulario(){
-  String SSID = server.arg("SSID");
-  Serial.println(SSID + "nuevo");
+  if (t)
+  {
+    Serial.println("Restarting in 5 seconds");
+    request->redirect("/");
+    vTaskDelay(5000);
+    
+    ESP.restart();
+  }
 }

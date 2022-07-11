@@ -10,8 +10,9 @@
             "includePath": [
                 "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/include",
                 "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/src",
-                "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/lib/ESPAsyncWebServer-master/src",
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/.pio/libdeps/esp32dev/AsyncTCP/src",
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/SPIFFS/src",
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/FS/src",
                 "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/.pio/libdeps/esp32dev/Adafruit PN532",
@@ -218,6 +219,7 @@
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/Ticker/src",
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
+                "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                 ""
@@ -227,8 +229,9 @@
                 "path": [
                     "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/include",
                     "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/src",
-                    "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                    "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/lib/ESPAsyncWebServer-master/src",
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                    "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/.pio/libdeps/esp32dev/AsyncTCP/src",
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/SPIFFS/src",
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/FS/src",
                     "c:/Users/Salxi/Documents/PlatformIO/Projects/esp32/.pio/libdeps/esp32dev/Adafruit PN532",
@@ -435,6 +438,7 @@
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/Ticker/src",
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
+                    "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "C:/Users/Salxi/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                     ""
